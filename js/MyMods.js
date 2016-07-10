@@ -2,7 +2,7 @@ $(document).ready(function(){
 
   // start the program
   start();
-  // createHUD();
+  createHUD();
 
   // Rotates selection of cubes
   $("#rubriksCube").on("click", function(){
