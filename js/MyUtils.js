@@ -91,7 +91,6 @@ var render = function () {
   }
 
   // Render new scene
-  GC.renderer.setClearColor( 0xffffff, 0);
   GC.renderer.render(GC.scene, GC.camera);
   GC.controls.update();
 };
@@ -212,9 +211,9 @@ function webglAvailable() {
 // returns appropriate renderer (mobile/desktop)
 function getRenderer() {
   if ( webglAvailable() ) {
-    return( new THREE.WebGLRenderer({alpha: true, antialias: true}) ); // Desktop (or WebGL capable)
+    return( new THREE.WebGLRenderer({antialias: true}) ); // Desktop (or WebGL capable)
   } else {
-    return( new THREE.CanvasRenderer({alpha: true, antialias: true}) ); // Mobile
+    return( new THREE.CanvasRenderer({antialias: true}) ); // Mobile
   }
 }
 
