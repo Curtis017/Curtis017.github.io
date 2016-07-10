@@ -1,20 +1,25 @@
 $(document).ready(function(){
 
+  // start the program
+  start();
+  createHUD();
+
   // Rotates selection of cubes
-  $("body").on("click", function(){
+  $("#rubriksCube").on("click", function(){
     if (!GC.rotationLock) {
 
-      GC.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-      GC.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      // Get the x and y coordinates of the mouse relative to the container
+      GC.mouse.x = ( (event.clientX - $(this).position().left) / GC.canvas.offsetWidth ) * 2 - 1;
+      GC.mouse.y = - ( (event.clientY - $(this).position().top) / GC.canvas.offsetHeight ) * 2 + 1;
 
       // update the picking ray with the camera and mouse position
       GC.raycaster.setFromCamera( GC.mouse, GC.camera );
 
       // calculate objects intersecting the picking ray
-      // var intersects = GC.raycaster.intersectObjects( GC.scene.children );
       var objects = [];
       GC.scene.traverse( function( node ) { if ( node instanceof THREE.Mesh ) { objects.push(node);}});
 
+      // set the cubes that are effected by the rotation
       var intersects = GC.raycaster.intersectObjects( objects );
       if (intersects.length > 0) {
         GC.rotationLock = true;
@@ -23,24 +28,12 @@ $(document).ready(function(){
     }
   });
 
-  // Switches which way to rotate
-  $("body").on("keypress", function(key){
-    if (!GC.rotationLock) {
-      if (key.keyCode === 115) {  // s key
-        GC.rotationDirection++;
-      }
-      else { // any other key
-        GC.choice++;
-      }
-    }
-  });
-
   // Resizing Window
   $(window).resize(function(){
-    GC.camera.aspect = window.innerWidth / window.innerHeight;
+    GC.camera.aspect = GC.canvas.offsetWidth / GC.canvas.offsetHeight;
     GC.camera.updateProjectionMatrix();
 
-    GC.renderer.setSize( window.innerWidth, window.innerHeight );
+    GC.renderer.setSize( GC.canvas.offsetWidth, GC.canvas.offsetHeight );
   });
 
 });
